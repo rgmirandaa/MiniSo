@@ -35,7 +35,7 @@ int main() {
     };
 
     cout << "======================================================\n";
-    cout << "       PRUEBAS AUTOMATIZADAS - MODULO MEMORIA         \n";
+    cout << "              PRUEBAS  -  MODULO MEMORIA              \n";
     cout << "======================================================\n";
 
     bool tablaImpresa = false;
