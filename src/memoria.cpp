@@ -143,13 +143,26 @@ bool liberarMemoria(string idProceso) {
 }
 
 void configurarPaginacion(int tamPag, int numMarcos) {
+    if (tamPag <= 0 || numMarcos <= 0) {
+        cout << "[ERROR] El tamaño de página y los marcos deben ser mayores a 0.\n";
+        return;
+    }
     tamPagina = tamPag;
     totalMarcos = numMarcos;
-    cantPaginas = 0;
-    cout << "[OK] Paginacion configurada: Pagina de " << tamPagina << " bytes | Total Marcos: " << totalMarcos << ".\n";
+    cantPaginas = (numMarcos < MAX_PAGINAS) ? numMarcos : MAX_PAGINAS;
+    for (int i = 0; i < cantPaginas; i++) {
+        if (i < cantPaginas - 1) {
+            tablaPaginas[i] = {i, (i * 2 + 1) % totalMarcos, true};
+        } else {
+            tablaPaginas[i] = {i, -1, false};
+        }
+    }
+    cout << "[OK] Paginación configurada: Página de " << tamPagina << " bytes | Total Marcos: " << totalMarcos << ".\n";
 }
 
 void cargarTablaPorDefecto() {
+    if (cantPaginas > 0) return; 
+
     tamPagina = 4096;
     totalMarcos = 8;
     cantPaginas = 5;
@@ -158,15 +171,15 @@ void cargarTablaPorDefecto() {
     tablaPaginas[1] = {1, 5, true};
     tablaPaginas[2] = {2, 1, true};
     tablaPaginas[3] = {3, 7, true};
-    tablaPaginas[4] = {4, -1, false}; // Página no asignada para pruebas de fallo
-    
-    cout << "[OK] Tabla de paginas por defecto cargada.\n";
+    tablaPaginas[4] = {4, -1, false}; 
 }
 
 void mostrarTablaPaginas() {
     if (cantPaginas == 0) cargarTablaPorDefecto();
 
     cout << "\n=================== TABLA DE PAGINAS ===================\n";
+    cout << "Parámetros Activos: Tamaño Página = " << tamPagina << " bytes | Marcos Totales = " << totalMarcos << "\n";
+    cout << "--------------------------------------------------------\n";
     cout << "No. Pagina\tNo. Marco Asignado\tEstado\n";
     cout << "--------------------------------------------------------\n";
     for (int i = 0; i < cantPaginas; i++) {
@@ -183,7 +196,7 @@ int traducirDireccion(int direccionLogica) {
     if (cantPaginas == 0) cargarTablaPorDefecto();
 
     if (direccionLogica < 0) {
-        cout << "[ERROR] La direccion logica no puede ser negativa.\n";
+        cout << "[ERROR] La dirección lógica no puede ser negativa.\n";
         return -1;
     }
 
@@ -191,13 +204,13 @@ int traducirDireccion(int direccionLogica) {
     int offset = direccionLogica % tamPagina;
 
     if (pagina >= cantPaginas) {
-        cout << "[ERROR] Fallo de Pagina: La direccion " << direccionLogica 
-             << " sobrepasa las paginas totales del proceso (Pagina " << pagina << " inexistente).\n";
+        cout << "[ERROR] Fallo de Página: La dirección " << direccionLogica 
+             << " sobrepasa las páginas totales (" << cantPaginas << " páginas disponibles).\n";
         return -1;
     }
 
     if (!tablaPaginas[pagina].asignada) {
-        cout << "[ERROR] Fallo de Pagina: La Pagina " << pagina << " esta en estado NO ASIGNADA a la memoria fisica.\n";
+        cout << "[ERROR] Fallo de Página: La Página " << pagina << " está en estado NO ASIGNADA a la memoria física.\n";
         return -1;
     }
 
@@ -205,10 +218,10 @@ int traducirDireccion(int direccionLogica) {
     int direccionFisica = (marco * tamPagina) + offset;
 
     cout << "\n[TRADUCCION EXITO]:\n";
-    cout << "  - Dir. Logica: " << direccionLogica << " bytes\n";
-    cout << "  - Pagina: " << pagina << " (Offset/Desplazamiento: " << offset << " bytes)\n";
-    cout << "  - Marco Fisico Mapeado: " << marco << "\n";
-    cout << "  - Dir. Fisica Calculada: (" << marco << " * " << tamPagina << ") + " << offset << " = " << direccionFisica << " bytes\n";
+    cout << "  - Dir. Lógica: " << direccionLogica << " bytes\n";
+    cout << "  - Página: " << pagina << " (Offset/Desplazamiento: " << offset << " bytes)\n";
+    cout << "  - Marco Físico Mapeado: " << marco << "\n";
+    cout << "  - Dir. Física Calculada: (" << marco << " * " << tamPagina << ") + " << offset << " = " << direccionFisica << " bytes\n";
 
     return direccionFisica;
 }
@@ -222,22 +235,22 @@ void menuGestionMemoria() {
         cout << "           MODULO III: GESTION DE MEMORIA             \n";
         cout << "======================================================\n";
         cout << "--- Parte A: Particionamiento Contiguo ---\n";
-        cout << "1. Configurar Tamanio Total de RAM\n";
+        cout << "1. Configurar Tamaño Total de RAM\n";
         cout << "2. Solicitar Memoria para Proceso (First-Fit)\n";
         cout << "3. Liberar Memoria de Proceso\n";
         cout << "4. Mostrar Estado de Bloques (Libres/Ocupados)\n";
-        cout << "--- Parte B: Paginacion y Traduccion ---\n";
-        cout << "5. Configurar Tamanio de Pagina y Marcos\n";
-        cout << "6. Mostrar Tabla de Paginas\n";
-        cout << "7. Traducir Direccion Logica a Fisica\n";
-        cout << "0. Volver al Menu Principal\n";
-        cout << "Seleccione una opcion: ";
+        cout << "--- Parte B: Paginación y Traducción ---\n";
+        cout << "5. Configurar Tamaño de Página y Marcos\n";
+        cout << "6. Mostrar Tabla de Páginas\n";
+        cout << "7. Traducir Dirección Lógica a Física\n";
+        cout << "0. Volver al Menú Principal\n";
+        cout << "Seleccione una opción: ";
         cin >> opcion;
 
         switch (opcion) {
             case 1: {
                 int tam;
-                cout << "Tamanio total de la RAM (KB): ";
+                cout << "Tamaño total de la RAM (KB): ";
                 cin >> tam;
                 inicializarMemoria(tam);
                 break;
@@ -245,16 +258,16 @@ void menuGestionMemoria() {
             case 2: {
                 string proc;
                 int tam;
-                cout << "ID del Proceso: ";
+                cout << "ID del Proceso (ej. P1): ";
                 cin >> proc;
-                cout << "Tamanio (KB): ";
+                cout << "Tamaño (KB): ";
                 cin >> tam;
                 solicitarMemoriaFirstFit(proc, tam);
                 break;
             }
             case 3: {
                 string proc;
-                cout << "ID del Proceso a liberar: ";
+                cout << "ID del Proceso a liberar (ej. P1): ";
                 cin >> proc;
                 liberarMemoria(proc);
                 break;
@@ -264,9 +277,9 @@ void menuGestionMemoria() {
                 break;
             case 5: {
                 int tp, tm;
-                cout << "Tamanio de Pagina en Bytes: ";
+                cout << "Tamaño de Página en Bytes (ej. 2048): ";
                 cin >> tp;
-                cout << "Cantidad Total de Marcos de Pagina: ";
+                cout << "Cantidad Total de Marcos de Página (ej. 4): ";
                 cin >> tm;
                 configurarPaginacion(tp, tm);
                 break;
@@ -276,7 +289,7 @@ void menuGestionMemoria() {
                 break;
             case 7: {
                 int dir;
-                cout << "Ingrese direccion logica en bytes: ";
+                cout << "Ingrese dirección lógica en bytes (ej. 5000): ";
                 cin >> dir;
                 traducirDireccion(dir);
                 break;
@@ -284,4 +297,3 @@ void menuGestionMemoria() {
         }
     } while (opcion != 0);
 }
-
