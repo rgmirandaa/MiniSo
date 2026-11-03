@@ -1,14 +1,20 @@
 #ifndef MEMORIA_H
 #define MEMORIA_H
 
-// A. Particionamiento Contiguo (First-Fit)
-void firstFit(int blockSize[], int m, const int processSize[], int n);
+#include <string>
 
-// B. Paginación y Traducción de Direcciones
-void simularPaginacion(const int tablaPaginas[], int nPaginas, int totalMarcos);
-int traducirDireccion(int direccionLogica, int tamPagina, const int tablaPaginas[], int nPaginas);
+using std::string;
 
-// Menú del Módulo III
+// Parte A: Particionamiento Contiguo (First-Fit)
+void inicializarMemoria(int tamanioTotal);
+void fusionarBloquesLibres();
+void mostrarEstadoMemoria();
+
+// Parte B: Paginación y Traducción 
+void cargarTablaPorDefecto();
+void mostrarTablaPaginas();
+
+// Menú Principal de Modulo III
 void menuGestionMemoria();
 
 #endif 
