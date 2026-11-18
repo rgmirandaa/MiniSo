@@ -67,4 +67,4 @@ A continuación se presentan las sustentaciones individuales de cada módulo des
 | :--- | :--- | :--- |
 | **[Roberto Gabriel Miranda Antezana]** | Módulo I: Gestión de Procesos | [Ver video de demostración](https://www.youtube.com/watch?v=LINK_INTEGRANTE_1) |
 | **[Jhon Andrioly Zenteno Sosa]** | Módulo II: Concurrencia y Sincronización | [Ver video de demostración](https://youtu.be/FaU5MjwDDfg) |
-| **[Alejandra del Rosario Ramos Mamani]** | Módulo III: Gestión de Memoria | [Ver video de demostración](https://www.youtube.com/watch?v=TU_LINK_AQUI) |
+| **[Alejandra del Rosario Ramos Mamani]** | Módulo III: Gestión de Memoria | [Ver video de demostración](https://youtu.be/_NxpNMYPWcA) |
