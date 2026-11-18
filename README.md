@@ -58,3 +58,13 @@ En el menú principal selecciona:
 0. **Salir:** cierra la aplicación.
 
 La gestión de memoria es una simulación; no modifica la memoria real del sistema operativo.
+
+## Videos de demostración
+
+A continuación se presentan las sustentaciones individuales de cada módulo desarrollado para **MiniSO**:
+
+| Estudiante | Módulo Sustentado | Enlace de Video |
+| :--- | :--- | :--- |
+| **[Roberto Gabriel Miranda Antezana]** | Módulo I: Gestión de Procesos | [Ver video de demostración](https://www.youtube.com/watch?v=LINK_INTEGRANTE_1) |
+| **[Jhon Andrioly Zenteno Sosa]** | Módulo II: Concurrencia y Sincronización | [Ver video de demostración](https://www.youtube.com/watch?v=LINK_INTEGRANTE_2) |
+| **[Alejandra del Rosario Ramos Mamani]** | Módulo III: Gestión de Memoria | [Ver video de demostración](https://www.youtube.com/watch?v=TU_LINK_AQUI) |
